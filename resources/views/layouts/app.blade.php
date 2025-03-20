@@ -1,17 +1,87 @@
-{{-- <section class="w-full h-full pt-[120px] ">
-    <x-container>
-        <div class="categories">
-            <ul class="categories-list">
-                <li>
+@extends('layouts.base')
+
+@section('content')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<section class="w-full h-full pt-[70px]" >
+<x-container>
+    <section class="w-full h-full pt-[120px]">
+        <x-container>
+            <h1 class="h1 text-center text-[38px] font-extrabold mb-[30px]">Наши курсы</h1>
+
+            <!-- Категории -->
+            <div class="categories flex justify-center mb-[20px]" id="categories">
+                <ul class="categories-list flex gap-[10px]">
+                    @foreach ($brands as $brand)
+                        <li class="inline-flex py-2 px-3 hover:bg-slate-200 rounded">
+                            <button  class="category-link" data-id="{{ $brand->id }}">
+                                {{ $brand->name }}
+                            </button>
+                        </li>
+                    @endforeach
+                    <li>
+                        <button class="category-all inline-flex py-2 px-3 hover:bg-slate-200 rounded" data-id="all" >
+                            Все курсы
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Статьи -->
+      <div class="flex items-center  flex-wrap gap-[20px]  " id="articles" >
+                @foreach ($products as $product)
+
+                @endforeach
+            </div>
+        </x-container>
+    </section>
+
+    <script>
+        $(document).ready(function() {
+            // Загружаем статьи по умолчанию (при загрузке страницы)
+            loadArticles();
+
+            // Обработчик кликов по категориям
+            $(document).on('click', '.category-link', function(e) {
+                e.preventDefault();
+                const brandId = $(this).data('id'); // Получаем ID категории
+                loadArticles(brandId); // Загружаем статьи для выбранной категории
+            });
+            $(document).on('click', '.category-all', function(e) {
+                e.preventDefault();
+
+                loadArticles(); // Загружаем статьи для выбранной категории
+            });
+
+            // Функция для загрузки статей
+            function loadArticles(brandId = null) {
+                const url = brandId ? '{{ url("/") }}' + `/articles/brand/${brandId}` : '{{ url("/") }}';
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(response) {
+                        $('#articles').html(response.products); // Вставляем статьи в блок
+                    }
+                });
+            }
+        });
+    </script>
+
+
+    {{-- <h1 class="h1 text-center text-[38px] font-extrabold mb-[30px]  ">Наши курсы</h1>
+
+        <div class="categories flex justify-center mb-[20px] ">
+            <ul class="categories-list flex gap-[10px] ">
+                <li class="inline-flex py-2 px-3 hover:bg-slate-200 rounded">
                     <a href="{{ route('main-page') }}"
                         @if (!$brandId)
                             class="active"
                         @endif
-                    >Последние</a>
+                    >Все курсы</a>
                 </li>
                 @if ($brands)
                     @foreach ($brands as $brand)
-                        <li>
+                        <li class="inline-flex py-2 px-3 hover:bg-slate-200 rounded" >
                             <a href="{{ route('brandsByCategory', $brand->id) }}"
                                 @if (intval($brandId) === $brand->id)
                                     class="active"
@@ -22,15 +92,16 @@
                 @endif
             </ul>
         </div>
+
         <div class="swiper mySwiper   ">
             <div class="swiper-wrapper   ">
-
+                @foreach ($products as $product )
                 <div class="swiper-slide  ">
                     <div class=" md:max-w-[500px] p-[20px] bg-[#FFF4BB] border rounded-[20px]    ">
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col">
                                 <div class="flex gap-[5px] items-center">
-                                    <span>Проффесия</span>
+                                    <span>{{$product->name}}</span>
                                     <span
                                         class="bg-[#FFF705] text-[12px] font-medium py-[3px] px-[7px] flex justify-center items-center  rounded-[10px] gap-[4px] ">
                                         <p class=""> Популярное</p> <img class="size-[14px]" src="{{"
@@ -43,7 +114,7 @@
 
                             </div>
                             <div class="">
-                                <img class="size-[45px]" src="{{" storage/js.png"}}" alt="">
+                                <img class="size-[45px]" src="{{ url('storage', $product->image) }}" alt="">
                             </div>
                         </div>
                         <ul class="mt-8 space-y-3 font-medium">
@@ -87,10 +158,10 @@
                         </ul>
                         <div class=" mt-[30px] w-full bg-[#ffdd05] p-[12px] rounded-[10px] min-h-[120px] ">
                             <h3 class="text-[19px] font-bold text-black line-through">
-                                {{$product->price}} ₽ / мес
+                                 ₽ / мес
                             </h3>
                             <h3 class="text-[22px] mt-[10px] font-bold text-black ">
-                               {{$product->priceaction}} ₽ / мес
+                               ₽ / мес
                             </h3>
                             <span class="text-black text-[14px]">Рассрочка на 12 месяцев</span>
                         </div>
@@ -123,12 +194,10 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
+                @endforeach
             </div>
-        </div>
+        </div> --}}
+
     </x-container>
-</section> --}}
+    </section>
+@endsection

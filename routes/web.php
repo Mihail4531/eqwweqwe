@@ -1,17 +1,21 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
+use App\Models\Brand;
 use Illuminate\Support\Facades\Route;
 
-Route::controller(HomeController::class)->group(function() {
-    Route::get('/', 'index')->name('page.home');
-    Route::get('/', 'Product')->name('page.home');
-});
+Route::get('/', [HomeController::class, "index"])->name('main-page');
+Route::get('/articles/brand/{brandId}', [HomeController::class, 'getArticlesByCategory']);
+// Route::get('/brand/{category}', [HomeController::class, "index"])->name('brandsByCategory');
 
-
+// Route::get('/product/{slug}', [ProductController::class, "show"])->name('product.show');
+Route::get('/', [HomeController::class, 'index'])->name('articles.index');
+Route::get('/brand/{brandId}', [ProductController::class, 'getArticlesByCategory'])->name('articles.getByCategory');
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

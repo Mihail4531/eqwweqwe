@@ -11,6 +11,7 @@
     @vite('resources/js/app.js')
     @vite("resources/js/vertical-slider.js")
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
 </head>
@@ -20,10 +21,10 @@
 
   @include("layouts.partials.header")
 
-  @include("web.sections.welcome")
-  @include("web.sections.info")
-  @include("web.sections.kurs")
-    @include("web.sections.reviews")
+@include("web.sections.welcome")
+@include("web.sections.info")
+@include("web.sections.reviews")
+@yield('content')
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
